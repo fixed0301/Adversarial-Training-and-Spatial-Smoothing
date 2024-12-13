@@ -1,0 +1,69 @@
+실행 사양 : CUDA Version: 12.4. NVIDIA GeForce RTX 4080
+
+### Loading Dataset ###
+Length of fake dataset: 10000
+Length of real dataset: 10000
+Loading images from dataset at dataset
+16000 images for training, 4000 images for validation
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers). Got range [-0.558952..1.82].
+0it [00:00, ?it/s]
+
+### Training model ###
+1000it [00:25, 39.37it/s]
+Epoch 1 / 10 Loss:  tensor(0.6348, device='cuda:0', grad_fn=<DivBackward0>) Acc:  63.8125
+1000it [00:22, 45.10it/s]
+Epoch 2 / 10 Loss:  tensor(0.5619, device='cuda:0', grad_fn=<DivBackward0>) Acc:  71.5375
+1000it [00:21, 45.72it/s]
+Epoch 3 / 10 Loss:  tensor(0.5158, device='cuda:0', grad_fn=<DivBackward0>) Acc:  74.76875
+1000it [00:21, 46.11it/s]
+Epoch 4 / 10 Loss:  tensor(0.4775, device='cuda:0', grad_fn=<DivBackward0>) Acc:  77.11875
+1000it [00:21, 45.80it/s]
+Epoch 5 / 10 Loss:  tensor(0.4414, device='cuda:0', grad_fn=<DivBackward0>) Acc:  79.45
+1000it [00:20, 49.35it/s]
+Epoch 6 / 10 Loss:  tensor(0.4028, device='cuda:0', grad_fn=<DivBackward0>) Acc:  81.68125
+1000it [00:21, 46.36it/s]
+Epoch 7 / 10 Loss:  tensor(0.3616, device='cuda:0', grad_fn=<DivBackward0>) Acc:  83.9
+1000it [00:21, 46.10it/s]
+Epoch 8 / 10 Loss:  tensor(0.3181, device='cuda:0', grad_fn=<DivBackward0>) Acc:  86.2875
+1000it [00:21, 46.12it/s]
+Epoch 9 / 10 Loss:  tensor(0.2715, device='cuda:0', grad_fn=<DivBackward0>) Acc:  88.63125
+1000it [00:21, 46.05it/s]
+C:\Users\user\Desktop\Adversarial-Training-and-Spatial-Smoothing-master\Adversarial-Training-and-Spatial-Smoothing-master\src\metrics\plot.py:23: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`). Consider using `matplotlib.pyplot.close()`.
+  fig = plt.figure(figsize=(10, 5))
+Epoch 10 / 10 Loss:  tensor(0.2250, device='cuda:0', grad_fn=<DivBackward0>) Acc:  90.99375
+
+
+### Testing model ###
+### Normal Testing on model ###
+C:\Users\user\Desktop\Adversarial-Training-and-Spatial-Smoothing-master\Adversarial-Training-and-Spatial-Smoothing-master\src\testing\testing.py:19: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  model_point = torch.load(path, map_location=device)
+125it [00:16,  7.73it/s]
+C:\Users\user\Desktop\Adversarial-Training-and-Spatial-Smoothing-master\Adversarial-Training-and-Spatial-Smoothing-master\src\testing\attacks.py:22: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  model_point = torch.load(model_path, map_location=device)
+Loss:  tensor(0.5130, device='cuda:0') Acc:  79.9
+
+
+### Adversarial Attack ###
+125it [05:54,  2.83s/it]
+Loss:  tensor(1.2756, device='cuda:0') Acc:  1.075
+
+
+### Spatial Smoothing ###
+100%|██████████| 125/125 [06:20<00:00,  3.05s/it]
+Loss:  tensor(1.1314, device='cuda:0') Acc.:  51.85
+
+### Adversarial Training ###
+1000it [45:06,  2.71s/it]
+Loss per epoch: [0.6110212206840515, 0.5252308249473572, 0.4765441119670868, 0.43660563230514526, 0.40143120288848877, 0.376.....하튼  Loss:  tensor(0.4605,
+Accuracy per epoch: [46.584375, 56.23125, 60.0375, 62.296875, 64.2125, 65.7625, 67.2......하튼 최종은 Acc:  64.0125
+
+### Ad Testing ###
+### Testing Adv model with original data ###
+Loss:  tensor(0.5099, device='cuda:0') Acc:  75.325
+
+### Testing Adv model with Adversarial Attack ###
+125it [15:33,  7.47s/it]
+Loss:  tensor(0.7700, device='cuda:0') Acc:  32.85
+
+### Combine Adversarial Training with Spatial Smoothing ###
+Loss:  tensor(0.7671, device='cuda:0') Acc.:  53.65
